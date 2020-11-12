@@ -13,42 +13,32 @@ import './App.css';
 
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
 
 
   //Initial users
-  useEffect(() => {
-    const fetchData = async () => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
 
-      setLoading(true);
+  //     setLoading(true);
 
-      const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+  //     const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
 
-      setUsers(res.data);
-      setLoading(false);
-      //eslint-disable-next-line 
+  //     setUsers(res.data);
+  //     setLoading(false);
+  //     //eslint-disable-next-line 
 
-    }
-    fetchData();
-  }, []);
+  //   }
+  //   fetchData();
+  // }, []);
 
 
   //SEARCH GITHUB USERS AND PASSING PROPS UP TO THE APP COMPONENT
 
 
   //Get single user
-  const getUser = async (username) => {
-    setLoading(true);
-
-    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-
-    setUser(res.data);
-    setLoading(false);
-  }
 
   //get user repos
   const getUserRepos = async (username) => {
@@ -62,10 +52,7 @@ const App = () => {
 
 
   //clear user results from state
-  const clearUsers = () => {
-    setUsers([]);
-    setLoading(false);
-  }
+
 
   //Set Alert
   const showAlert = (msg, type) => {
@@ -85,22 +72,17 @@ const App = () => {
               <Route exact path='/' render={props => (
                 <Fragment>
                   <Search
-                    clearUsers={clearUsers}
-                    showClear={users.length > 0 ? true : false}
                     setAlert={showAlert}
                   />
-                  <Users loading={loading} users={users} />
+                  <Users />
                 </Fragment>
               )} />
               <Route exact path='/about' component={About} />
               <Route exact path='/user/:login' render={props => (
                 <User
                   {...props}
-                  getUser={getUser}
                   getUserRepos={getUserRepos}
-                  user={user}
                   repos={repos}
-                  loading={loading}
                 />
               )} />
             </Switch>
